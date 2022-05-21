@@ -35,10 +35,8 @@ async function processDir(dir: string) {
     dirents = await readdir(dir, { withFileTypes: true });
 
     const images = dirents
-      .filter((dirent) => dirent.isFile() && AVAILABLE_IMG_EXTENSIONS.includes(path.extname(dirent.name)))
+      .filter((dirent) => dirent.isFile() && AVAILABLE_IMG_EXTENSIONS.includes(path.extname(dirent.name).toLowerCase()))
       .map((dirent) => path.resolve(path.join(dir, dirent.name)));
-
-    console.log(images)
 
     const imgBuffers: Record<string, Promise<{ filename: string; buffer: Buffer }>> = {};
     for (const filename of images) {
